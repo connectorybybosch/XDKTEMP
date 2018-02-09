@@ -1,28 +1,28 @@
 /*
-* Licensee agrees that the example code provided to Licensee has been developed and released by Bosch solely as an example to be used as a potential reference for Licensee�s application development. 
+* Licensee agrees that the example code provided to Licensee has been developed and released by Bosch solely as an example to be used as a potential reference for Licensee�s application development.
 * Fitness and suitability of the example code for any use within Licensee�s applications need to be verified by Licensee on its own authority by taking appropriate state of the art actions and measures (e.g. by means of quality assurance measures).
-* Licensee shall be responsible for conducting the development of its applications as well as integration of parts of the example code into such applications, taking into account the state of the art of technology and any statutory regulations and provisions applicable for such applications. Compliance with the functional system requirements and testing there of (including validation of information/data security aspects and functional safety) and release shall be solely incumbent upon Licensee. 
+* Licensee shall be responsible for conducting the development of its applications as well as integration of parts of the example code into such applications, taking into account the state of the art of technology and any statutory regulations and provisions applicable for such applications. Compliance with the functional system requirements and testing there of (including validation of information/data security aspects and functional safety) and release shall be solely incumbent upon Licensee.
 * For the avoidance of doubt, Licensee shall be responsible and fully liable for the applications and any distribution of such applications into the market.
-* 
-* 
-* Redistribution and use in source and binary forms, with or without 
-* modification, are permitted provided that the following conditions are 
+*
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions are
 * met:
-* 
+*
 *     (1) Redistributions of source code must retain the above copyright
-*     notice, this list of conditions and the following disclaimer. 
-* 
+*     notice, this list of conditions and the following disclaimer.
+*
 *     (2) Redistributions in binary form must reproduce the above copyright
 *     notice, this list of conditions and the following disclaimer in
 *     the documentation and/or other materials provided with the
-*     distribution.  
-*     
+*     distribution.
+*
 *     (3)The name of the author may not be used to
 *     endorse or promote products derived from this software without
 *     specific prior written permission.
-* 
-*  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR 
-*  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+*
+*  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+*  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 *  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 *  DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
 *  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
@@ -30,7 +30,7 @@
 *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
 *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-*  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+*  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 *  POSSIBILITY OF SUCH DAMAGE.
 */
 
@@ -40,12 +40,12 @@
  *
  * @defgroup EXTBUS_TEMP_IO_BOARD ExtensionBusTemperatureIOBoard
  * @{
- *	
+ *
  * @brief  Extension Temperature IO Board provides the Implementation of Extension Temperature IO Board(MAX31865) prints Temperature Data from PT100/1000 to Serial Console.
  *
  * @details External Temperature Sensor and Digital I/O
  * The XDK External Temperature Sensor and Digital I/O extension board consists of three main elements: the external temperature, two digital inputs and two digital outputs.
- * Please have a look into the extension of the <b> <a href="https://xdk.bosch-connectivity.com/extensions">External Temperature Sensor and Digital I/O Board</a></b>.This web page will go over how to use each element of the board and the maximum rating of each element. 
+ * Please have a look into the extension of the <b> <a href="https://xdk.bosch-connectivity.com/extensions">External Temperature Sensor and Digital I/O Board</a></b>.This web page will go over how to use each element of the board and the maximum rating of each element.
  *
  * @file ExtensionBusTemperatureIOBoard.c
  *
@@ -92,30 +92,6 @@ CmdProcessor_T *AppCmdProcessor;
 int TempLimite = 30000;
 int timeValueTemp = 0;
 /* global functions ********************************************************** */
-
-void createDocument(){
-	FILE *f = fopen("file.txt", "w");
-	if (f == NULL)
-	{
-	    printf("Error opening file!\n");
-	    exit(1);
-	}
-
-	/* print some text */
-	const char *text = "Write this to the file";
-	fprintf(f, "Some text: %s\n", text);
-
-	/* print integers and floats */
-	int i = 1;
-	float py = 3.1415927;
-	fprintf(f, "Integer: %d, float: %f\n", i, py);
-
-	/* printing single chatacters */
-	char c = 'A';
-	fprintf(f, "A character: %c\n", c);
-
-	fclose(f);
-}
 /** The function to get and print the Temperature data using printf
  * @brief Gets the data from External Temperature sensor and prints through the USB printf on serial port ,
  * 			If the External Temperature Sensor Not connected it will prints the Internal Temperature Sensor Data through USB using Printf
