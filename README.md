@@ -14,7 +14,7 @@ y graficandolos con ayuda de Python 2.7, tiene la característica que cuando se 
 # Instalando
 
 ```
-git clone https://github.com/BlackZuN/XDKEjemplos.git
+git clone https://github.com/connectorybybosch/XDKTEMP.git
 ```
 
 ```
