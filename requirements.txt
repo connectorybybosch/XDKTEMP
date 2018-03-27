@@ -1,7 +1,4 @@
 pyserial==3.4
-
 matplotlib
-
 pypiwin32
-
 tweepy 
