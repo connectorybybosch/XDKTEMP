@@ -38,7 +38,7 @@
 /**
  * @ingroup APPS_LIST
  *
- * @defgroup EXTBUS_TEMP_IO_BOARD TemperaturaSerial
+ * @defgroup EXTBUS_TEMP_IO_BOARD ExtensionBusTemperatureIOBoard
  * @{
  *
  * @brief  Extension Temperature IO Board provides the Implementation of Extension Temperature IO Board(MAX31865) prints Temperature Data from PT100/1000 to Serial Console.
@@ -47,7 +47,7 @@
  * The XDK External Temperature Sensor and Digital I/O extension board consists of three main elements: the external temperature, two digital inputs and two digital outputs.
  * Please have a look into the extension of the <b> <a href="https://xdk.bosch-connectivity.com/extensions">External Temperature Sensor and Digital I/O Board</a></b>.This web page will go over how to use each element of the board and the maximum rating of each element.
  *
- * @file TemperaturaSerial.c
+ * @file ExtensionBusTemperatureIOBoard.c
  *
  **/
 
@@ -82,8 +82,7 @@
 static xTimerHandle printTimerHandle;/**< variable to store timer handle*/
 
 /* global variables ********************************************************* */
-long int numMedicion = 0;
-long int tempLimite = 36000;
+
 /*Application Command Processor Instance */
 CmdProcessor_T *AppCmdProcessor;
 
@@ -92,198 +91,6 @@ CmdProcessor_T *AppCmdProcessor;
 /* local functions ********************************************************** */
 
 /* global functions ********************************************************** */
-
-/* Process the Button1 Data in side the Application context */
-static void processButton1Data(void * param1, uint32_t buttonstatus)
-{
-    BCDS_UNUSED(param1);
-    Retcode_T retVal = RETCODE_OK;
-    switch (buttonstatus)
-    {
-    case BSP_XDK_BUTTON_PRESS:
-        {
-        retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_ON);
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_OFF);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_ON);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            // printf("PB1 Pressed \n\r");
-        	tempLimite -= 500; //Disminuye 0.5 C el limite de temperatura
-        }
-        else
-        {
-            printf("PB1 Pressed but setting LED state failed\n\r");
-        }
-    }
-        break;
-
-    case BSP_XDK_BUTTON_RELEASE:
-        {
-        retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_OFF);
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_ON);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_OFF);
-        }
-        if (RETCODE_OK == retVal)
-        {
-             // printf("PB1 Released\n\r");
-        }
-        else
-        {
-            printf("PB1 Released but setting LED state failed\n\r");
-        }
-    }
-        break;
-
-    default:
-        printf("FATAL Error:Unsolicited button event occurred for PB1 \n\r");
-        break;
-
-    }
-
-}
-
-/*Callback for Button 1 */
-void Button1Callback(uint32_t data)
-{
-    Retcode_T returnValue = CmdProcessor_EnqueueFromIsr(AppCmdProcessor, processButton1Data, NULL, data);
-    if (RETCODE_OK != returnValue)
-    {
-        printf("Enqueuing for Button 1 callback failed\n\r");
-    }
-}
-
-/* Process the Button2 Data inside the Application context */
-static void processButton2Data(void * param1, uint32_t buttonstatus)
-{
-    BCDS_UNUSED(param1);
-    Retcode_T retVal = RETCODE_OK;
-    switch (buttonstatus)
-    {
-    case BSP_XDK_BUTTON_PRESS:
-        {
-        retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_ON);
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_ON);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_OFF);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            // printf("PB2 pressed\n\r");
-        	tempLimite += 500;
-        }
-        else
-        {
-            printf("PB2 Pressed but setting LED state failed\n\r");
-        }
-    }
-        break;
-
-    case BSP_XDK_BUTTON_RELEASE:
-        {
-        retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_OFF);
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_OFF);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            retVal = BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_ON);
-        }
-        if (RETCODE_OK == retVal)
-        {
-            // printf("PB2 Released\n\r");
-        }
-        else
-        {
-            printf("PB2 Released but setting LED state failed\n\r");
-        }
-    }
-        break;
-
-    default:
-        printf("FATAL Error:Unsolicited button event occurred for PB2 \n\r");
-        break;
-
-    }
-}
-
-/*Callback for Button 2 */
-void Button2Callback(uint32_t data)
-{
-    Retcode_T returnValue = CmdProcessor_EnqueueFromIsr(AppCmdProcessor, processButton2Data, NULL, data);
-    if (RETCODE_OK != returnValue)
-    {
-        printf("Enqueuing for Button 2 callback failed\n\r");
-    }
-}
-
-/* Routine to Initialize the LED */
-static Retcode_T LedInitialize(void)
-{
-    Retcode_T returnVal = RETCODE_OK;
-    returnVal = BSP_LED_Connect();
-    if (RETCODE_OK == returnVal)
-    {
-        returnVal = BSP_LED_Enable((uint32_t) BSP_XDK_LED_R);
-    }
-    if (RETCODE_OK == returnVal)
-    {
-        returnVal = BSP_LED_Enable((uint32_t) BSP_XDK_LED_O);
-    }
-    if (RETCODE_OK == returnVal)
-    {
-        returnVal = BSP_LED_Enable((uint32_t) BSP_XDK_LED_Y);
-    }
-    if (RETCODE_OK == returnVal)
-    {
-        printf("LED Initialization succeed without error %u \n", (unsigned int) returnVal);
-    }
-    else
-    {
-        printf(" Error occurred in LED Initialization routine %u \n", (unsigned int) returnVal);
-    }
-    return returnVal;
-}
-
-/* Routine to Initialize the Button module  */
-static Retcode_T ButtonInitialize(void)
-{
-    Retcode_T returnVal = RETCODE_OK;
-    returnVal = BSP_Button_Connect();
-    if (RETCODE_OK == returnVal)
-    {
-        returnVal = BSP_Button_Enable((uint32_t) BSP_XDK_BUTTON_1, Button1Callback);
-    }
-    if (RETCODE_OK == returnVal)
-    {
-        returnVal = BSP_Button_Enable((uint32_t) BSP_XDK_BUTTON_2, Button2Callback);
-    }
-    if (RETCODE_OK == returnVal)
-    {
-        printf("BUTTON Initialization success");
-    }
-    else
-    {
-        printf(" Error occurred in BUTTON Initialization routine %u \n", (unsigned int) returnVal);
-    }
-
-    return returnVal;
-}
 
 /** The function to get and print the Temperature data using printf
  * @brief Gets the data from External Temperature sensor and prints through the USB printf on serial port ,
@@ -324,25 +131,9 @@ static void processTempData(void * param1, uint32_t param2)
     {
     	if(envSensorRetVal == RETCODE_OK)
     	{
-    		// printf("Internal Temperature sensor data obtained: %ld mDeg\n\r", (long int) bme280.temperature);
-    		long int tempActual = (long int) bme280.temperature;
-    		numMedicion += 1;
-    		printf("%ld %ld %ld\n\r", tempActual, numMedicion, tempLimite);
-
-    		if (tempActual > tempLimite)
-    		{
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_ON);
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_ON);
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_ON);
-    		}
-    		else
-    		{
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_OFF);
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_O, (uint32_t) BSP_LED_COMMAND_OFF);
-    			BSP_LED_Switch((uint32_t) BSP_XDK_LED_Y, (uint32_t) BSP_LED_COMMAND_OFF);
-    		}
+    		printf("Internal Temperature sensor data obtained: %ld mDeg\n\r", (long int) bme280.temperature);
     	}
-    	// printf("Failed to Read the Temperature from External Temperature Sensor \n\r");
+    	printf("Failed to Read the Temperature from External Temperature Sensor \n\r");
         /* Recovery strategy for external sensor */
     	maxSensorRetVal = MAX31865_Disconnect();
         if (RETCODE_OK == maxSensorRetVal)
@@ -578,21 +369,6 @@ void appInitSystem(void * CmdProcessorHandle, uint32_t param2)
     {
         printf("Sensors initialization failed \n\r");
     }
-    Retcode_T returnVal = RETCODE_OK;
-
-        returnVal = LedInitialize();
-        if (RETCODE_OK == returnVal)
-        {
-            returnVal = ButtonInitialize();
-        }
-        if (RETCODE_OK != returnVal)
-        {
-            printf("Error in Initializing the LED AND BUTTON APPLICATION \n ");
-        }
-        else
-        {
-            printf("Successful Initialize of LED AND BUTTON APPLICATION \n ");
-        }
 }
 
 /**
