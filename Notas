@@ -1,1 +1,11 @@
 http://xdk.bosch-connectivity.com/
+
+INFO | UDEG-TALLER: PB1 Pressed
+INFO | UDEG-TALLER: PB1 Released
+INFO | UDEG-TALLER: PB2 pressed
+INFO | UDEG-TALLER: PB2 Released
+
+INFO | UDEG-TALLER: Internal Temperature sensor data obtained: 29910 mDeg
+INFO | UDEG-TALLER: Failed to Read the Temperature from External Temperature Sensor
+
+BSP_LED_Switch((uint32_t) BSP_XDK_LED_R, (uint32_t) BSP_LED_COMMAND_OFF);

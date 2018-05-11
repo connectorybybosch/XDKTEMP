@@ -14,7 +14,7 @@ plt.show()
 axes = plt.gca()
 axes.set_autoscale_on(True)
 
-for i in range(500):
+for i in range(7500):
 
     data = XDKPort.readline()
     sep = data.split()
@@ -35,16 +35,16 @@ for i in range(500):
     axes.relim()
     axes.autoscale_view(True,True,True)
     LIMITE = int(sep[2])
-    plt.figtext(0.50, 0.96, ' TEMPERATURA ', fontsize='large', color='R', ha ='center')
+    plt.figtext(0.50, 0.96, ' TEMPERATURE ', fontsize='large', color='R', ha ='center')
 
-    plt.xlabel('TIEMPO(S)')
+    plt.xlabel('TIME')
     #La linea 45 guarda imagen cada paso de tiempo
     #plt.savefig(str(i) + '.png')
     plt.pause(1e-17)
     time.sleep(0.05)
 
-    if (int(sep[0]) > int(sep[2]) and int(sep[1]) % 10 == 0):
-        mensaje = '\nLa temperatura limite de {} Centigrados ha sido sobrepasada.\n\nTemperatura actual: {} Centigrados' .format(float(sep[2])/1000, float(sep[0])/1000)
+    if (int(sep[0]) > int(sep[2]) and int(sep[1]) % 30 == 0):
+        mensaje = '\nThe temperature limit is {} Celsius Degrees.\n\nCurrent temperature: {} Celsius Degrees' .format(float(sep[2])/1000, float(sep[0])/1000)
         twt.ejecutar(mensaje)
 
 # add this if you don't want the window to disappear at the end
