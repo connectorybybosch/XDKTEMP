@@ -2,21 +2,21 @@
 
 * DESCRIPTION
 
-\tHow to use the temperature sensor BME280 embedded on the XDK (Cross Domain Development Kit), an IoT device developed by Bosch Connected Devices and Solutions. These scripts allow reading over USB port the temperature data and draw a graph with Python 2.7. 
+How to use the temperature sensor BME280 embedded on the XDK (Cross Domain Development Kit), an IoT device developed by Bosch Connected Devices and Solutions. These scripts allow reading over USB port the temperature data and draw a graph with Python 2.7. 
 
-\tIf the value exceeds a predetermined temperature boundary, the program sends a Twitter notification. The temperature limit can be modified using the push-buttons included on the XDK; Button * or 1 increases the boundary, Button ** or 2  decreases the limit.
+If the value exceeds a predetermined temperature boundary, the program sends a Twitter notification. The temperature limit can be modified using the push-buttons included on the XDK; Button * or 1 increases the boundary, Button ** or 2  decreases the limit.
 
 * OBJECTIVE
 
-\tIntroduction to XDK programming and how to use other programming languages like Python to develop IoT solutions quickly and efficiently in a workshop for Talent Land Guadalajara 2018.
+Introduction to XDK programming and how to use other programming languages like Python to develop IoT solutions quickly and efficiently in a workshop for Talent Land Guadalajara 2018.
 
 * DEVELOPMENT
 
-\tXDK scripts called "LedsAndButtons" and "extbusTempIOBoard" are combined to generate an only script called "TemperaturaSerial". 
+XDK scripts called "LedsAndButtons" and "extbusTempIOBoard" are combined to generate an only script called "TemperaturaSerial". 
 
-\tThe script sends data temperature every 1 second over USB to a computer and a file on Python called "XDKTEMP" reads the data and automatically and draws a graph on real time.
+The script sends data temperature every 1 second over USB to a computer and a file on Python called "XDKTEMP" reads the data and automatically and draws a graph on real time.
 
-\tIf the temperature exceeds the boundary, it executes Python script "twitter" and sends a push/notification to the profile that was configured on the Python script "credenciales".
+If the temperature exceeds the boundary, it executes Python script "twitter" and sends a push/notification to the profile that was configured on the Python script "credenciales".
 
 # Requirements
 
